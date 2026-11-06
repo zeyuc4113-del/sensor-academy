@@ -2,7 +2,7 @@
 
 目标：让手机浏览器打开这个学习 app，并「添加到主屏幕」，点图标直接进，跟装了个 app 差不多。
 
-> 现在这个文件夹已经初始化成 git 仓库，首次提交也做好了（commit `2f23e74`，分支 `main`，16 个文件都进仓库了）。你还没注册 GitHub、还没建仓库。下面一步步来。
+> ✅ **已上线**（2026-11-06）：网址 `https://zeyuc4113-del.github.io/sensor-academy/`，仓库 `zeyuc4113-del/sensor-academy`（Public），代码已 push（main = commit `25a5a43`），Pages 已开、验证通过。下面这段是当时的部署过程记录，以后更新内容直接看文末「以后更新内容怎么办」。
 
 ---
 
