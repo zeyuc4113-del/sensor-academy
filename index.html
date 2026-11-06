@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1a5fb4">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>传感器工坊</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">⚙️ 传感器工坊</div>
+    <div class="topbar-meta">
+      <span id="streak-badge" class="badge" title="连续学习天数">🔥 0</span>
+      <span id="progress-badge" class="badge">0%</span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- 今日 -->
+  <section id="view-home" class="view">
+    <div class="hero card">
+      <h1 id="greeting">你好</h1>
+      <p class="sub" id="today-line">今天的任务在下面。</p>
+    </div>
+    <div id="today-card"></div>
+    <div class="card" id="overview-card">
+      <h2>总体进度</h2>
+      <div class="bar"><div id="overall-bar" class="bar-fill"></div></div>
+      <div class="stat-row">
+        <div class="stat"><span class="num" id="stat-done">0</span><span class="label">已学完</span></div>
+        <div class="stat"><span class="num" id="stat-total">0</span><span class="label">总课时</span></div>
+        <div class="stat"><span class="num" id="stat-streak">0</span><span class="label">连续天数</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 课程 -->
+  <section id="view-course" class="view hidden">
+    <h2 class="section-title">课程地图</h2>
+    <div id="stage-list"></div>
+  </section>
+
+  <!-- 讲义阅读 -->
+  <section id="view-lesson" class="view hidden">
+    <div class="lesson-head card">
+      <button class="back-btn" onclick="App.route('course')">← 返回</button>
+      <div class="stage-tag" id="lesson-stage-tag"></div>
+      <h1 id="lesson-title"></h1>
+      <div class="lesson-meta"><span id="lesson-est"></span></div>
+    </div>
+    <article class="lesson-body card" id="lesson-content"></article>
+    <div class="card lesson-actions">
+      <button class="btn primary" id="btn-quiz" onclick="App.openQuiz()">去测验 →</button>
+      <button class="btn ghost" id="btn-done" onclick="App.markDone()">直接标记完成</button>
+    </div>
+  </section>
+
+  <!-- 测验 -->
+  <section id="view-quiz" class="view hidden">
+    <div class="lesson-head card">
+      <button class="back-btn" onclick="App.route('lesson')">← 返回讲义</button>
+      <h1 id="quiz-title">小测</h1>
+    </div>
+    <div id="quiz-body"></div>
+  </section>
+
+  <!-- 资料库 -->
+  <section id="view-library" class="view hidden">
+    <h2 class="section-title">资料库</h2>
+    <div id="library-body"></div>
+  </section>
+
+  <!-- 设置 -->
+  <section id="view-settings" class="view hidden">
+    <h2 class="section-title">设置</h2>
+    <div class="card">
+      <label class="field">
+        <span>怎么称呼你</span>
+        <input id="set-name" type="text" placeholder="你的名字（可留空）" onchange="App.saveName(this.value)">
+      </label>
+      <label class="field">
+        <span>每日提醒时间</span>
+        <input id="set-reminder" type="time" value="07:00" onchange="App.saveReminder(this.value)">
+      </label>
+      <p class="hint">网页版：打开 app 时会提示当天任务；真正的定时推送提醒要等 APK 版（原生通知）。</p>
+    </div>
+    <div class="card">
+      <h3>数据备份</h3>
+      <p class="hint">进度存在本机浏览器里。换手机/清缓存前记得导出，之后导入即可恢复。</p>
+      <div class="btn-row">
+        <button class="btn" onclick="App.exportData()">导出备份</button>
+        <button class="btn" onclick="document.getElementById('import-file').click()">导入备份</button>
+        <input type="file" id="import-file" accept="application/json" style="display:none" onchange="App.importData(this)">
+      </div>
+      <button class="btn danger" onclick="App.resetAll()">清空所有进度</button>
+    </div>
+    <div class="card about">
+      <h3>关于</h3>
+      <p class="hint">传感器工坊 · 个人学习用 · 目标：从会用到能独立设计制造接近/光电开关。</p>
+      <p class="hint" id="version-line"></p>
+    </div>
+  </section>
+</main>
+
+<nav class="tabbar">
+  <button class="tab" data-view="home" onclick="App.route('home')"><span class="tab-ico">🏠</span>今日</button>
+  <button class="tab" data-view="course" onclick="App.route('course')"><span class="tab-ico">📚</span>课程</button>
+  <button class="tab" data-view="library" onclick="App.route('library')"><span class="tab-ico">🗂️</span>资料</button>
+  <button class="tab" data-view="settings" onclick="App.route('settings')"><span class="tab-ico">⚙️</span>设置</button>
+</nav>
+
+<script src="data/library.js"></script>
+<script src="data/stage0.js"></script>
+<script src="data/stage1.js"></script>
+<script src="data/stage2.js"></script>
+<script src="data/stage3.js"></script>
+<script src="data/stage4.js"></script>
+<script src="data/stage5.js"></script>
+<script src="js/app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function () { /* file:// 下不支持，忽略 */ });
+  });
+}
+</script>
+</body>
+</html>
