@@ -2,7 +2,7 @@
 
 目标：让手机浏览器打开这个学习 app，并「添加到主屏幕」，点图标直接进，跟装了个 app 差不多。
 
-> 现在这个文件夹已经初始化成 git 仓库了（`git init` 已跑），但你还没注册 GitHub、也没建仓库。下面一步步来。
+> 现在这个文件夹已经初始化成 git 仓库，首次提交也做好了（commit `2f23e74`，分支 `main`，16 个文件都进仓库了）。你还没注册 GitHub、还没建仓库。下面一步步来。
 
 ---
 
@@ -29,29 +29,25 @@
 ### 路 A —— 不会用 git，用网页拖拽（最简单）
 
 1. 在刚建好的仓库页里，点中间蓝色链接 **uploading an existing file**（或 **Add file → Upload files**）。
-2. 把这个 `sensor-academy` 文件夹里的 **所有文件** 拖进去（`index.html`、`README.md`、`DEPLOY.md`、`css` 文件夹、`js` 文件夹、`data` 文件夹——一共 11 个文件，全选拖进去）。
+2. 把这个 `sensor-academy` 文件夹里的 **所有文件** 拖进去（`index.html`、`README.md`、`DEPLOY.md`、`css`、`js`、`data` 文件夹，加 `manifest.webmanifest`、`sw.js`、两张图标——一共 16 个文件，全选拖进去）。
 3. 底部 **Commit changes** 直接点绿色按钮。
 4. 完事。
 
 ### 路 B —— 会用 git，用命令行（本机已 init 好）
 
-在 PowerShell 里，先配一下身份（换成你自己的）：
-
-```powershell
-git config --global user.name "你的名字"
-git config --global user.email "你注册用的邮箱"
-```
-
-然后进入项目目录提交、推上去（把 `你的用户名` 换成真实用户名）：
+首次提交已经做好了（commit `2f23e74`，分支 `main`），你只需要：把 `你的用户名` 换成真实用户名，然后运行下面两条，把代码推上去：
 
 ```powershell
 cd "C:\Users\czy\Documents\deepseek-harness\default-workspace\sensor-academy"
-git add -A
-git commit -m "传感器工坊 v1.0：6阶段42课 + 资料库"
-git branch -M main
 git remote add origin https://github.com/你的用户名/sensor-academy.git
 git push -u origin main
 ```
+
+> 首次提交我用了个占位身份（sensor-academy）。如果你想让 GitHub 上的提交记录显示你的名字，push 前先跑下面两条，再跑 `git commit --amend --reset-author --no-edit`，然后 push：
+> ```powershell
+> git config --global user.name "你的名字"
+> git config --global user.email "你注册用的邮箱"
+> ```
 
 第一次 push 会弹窗让你登录 GitHub（浏览器授权），照做就行。
 
